@@ -19,3 +19,5 @@ pydantic-settings==2.9.1
 redis==6.2.0
 SQLAlchemy==2.0.41
 uvicorn==0.34.2
+
+locust

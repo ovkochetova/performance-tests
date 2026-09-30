@@ -3,6 +3,7 @@ from locust import HttpUser, between, task
 from tools.fakers import fake  # генератор случайных данных
 
 
+
 class GetUserScenarioUser(HttpUser):
     # Пауза между запросами для каждого виртуального пользователя (в секундах)
     wait_time = between(1, 3)

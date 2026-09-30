@@ -264,14 +264,14 @@ def build_operations_gateway_http_client() -> OperationsGatewayHTTPClient:
 
 
 # Новый билдер для нагрузочного тестирования
-def build_cards_gateway_locust_http_client(environment: Environment) -> CardsGatewayHTTPClient:
+def build_operations_gateway_locust_http_client(environment: Environment) -> OperationsGatewayHTTPClient:
     """
-    Функция создаёт экземпляр CardsGatewayHTTPClient адаптированного под Locust.
+    Функция создаёт экземпляр OperationsGatewayHTTPClient адаптированного под Locust.
 
     Клиент автоматически собирает метрики и передаёт их в Locust через хуки.
     Используется исключительно в нагрузочных тестах.
 
     :param environment: объект окружения Locust.
-    :return: экземпляр CardsGatewayHTTPClient с хуками сбора метрик.
+    :return: экземпляр OperationsGatewayHTTPClient с хуками сбора метрик.
     """
-    return CardsGatewayHTTPClient(client=build_gateway_locust_http_client(environment))
+    return OperationsGatewayHTTPClient(client=build_gateway_locust_http_client(environment))

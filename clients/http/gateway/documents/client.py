@@ -51,16 +51,16 @@ def build_documents_gateway_http_client() -> DocumentsGatewayHTTPClient:
     return DocumentsGatewayHTTPClient(client=build_gateway_http_client())
 
 # Новый билдер для нагрузочного тестирования
-def build_cards_gateway_locust_http_client(environment: Environment) -> CardsGatewayHTTPClient:
+def build_documents_gateway_locust_http_client(environment: Environment) -> DocumentsGatewayHTTPClient:
     """
-    Функция создаёт экземпляр CardsGatewayHTTPClient адаптированного под Locust.
+    Функция создаёт экземпляр DocumentsGatewayHTTPClient адаптированного под Locust.
 
     Клиент автоматически собирает метрики и передаёт их в Locust через хуки.
     Используется исключительно в нагрузочных тестах.
 
     :param environment: объект окружения Locust.
-    :return: экземпляр CardsGatewayHTTPClient с хуками сбора метрик.
+    :return: экземпляр DocumentsGatewayHTTPClient с хуками сбора метрик.
     """
-    return CardsGatewayHTTPClient(client=build_gateway_locust_http_client(environment))
+    return DocumentsGatewayHTTPClient(client=build_gateway_locust_http_client(environment))
 
 

@@ -1,7 +1,8 @@
 from grpc import Channel
+from locust.env import Environment
 
 from clients.grpc.client import GRPCClient
-from clients.grpc.gateway.client import build_gateway_grpc_client
+from clients.grpc.gateway.client import build_gateway_grpc_client, build_gateway_locust_grpc_client
 
 from contracts.services.gateway.cards.rpc_issue_physical_card_pb2 import IssuePhysicalCardRequest, IssuePhysicalCardResponse
 from contracts.services.gateway.cards.rpc_issue_virtual_card_pb2 import IssueVirtualCardRequest, IssueVirtualCardResponse
@@ -32,3 +33,16 @@ class CardsGatewayGRPCClient(GRPCClient):
 
 def build_cards_gateway_grpc_client() -> CardsGatewayGRPCClient:
     return CardsGatewayGRPCClient(channel=build_gateway_grpc_client())
+
+# Новый билдер для нагрузочного тестирования
+def build_cards_gateway_locust_grpc_client(environment: Environment) -> CardsGatewayGRPCClient:
+    """
+    Функция создаёт экземпляр CardsGatewayGRPCClient адаптированного под Locust.
+
+    Клиент автоматически собирает метрики и передаёт их в Locust через хуки.
+    Используется исключительно в нагрузочных тестах.
+
+    :param environment: объект окружения Locust.
+    :return: экземпляр CardsGatewayGRPCClient с хуками сбора метрик.
+    """
+    return CardsGatewayGRPCClient(channel=build_gateway_locust_grpc_client(environment))

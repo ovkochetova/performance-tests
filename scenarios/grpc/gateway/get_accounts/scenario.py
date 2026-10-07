@@ -1,11 +1,11 @@
-from locust import User, between, task
+from locust import task
 
 # Импортируем схемы ответов, чтобы типизировать shared state
 from clients.grpc.gateway.locust import GatewayGRPCTaskSet
-
-from contracts.services.gateway.accounts.rpc_open_deposit_account_pb2 import OpenDepositAccountResponse
 from contracts.services.gateway.accounts.rpc_get_accounts_pb2 import GetAccountsResponse
+from contracts.services.gateway.accounts.rpc_open_deposit_account_pb2 import OpenDepositAccountResponse
 from contracts.services.gateway.users.rpc_create_user_pb2 import CreateUserResponse
+from tools.locust.user import LocustBaseUser
 
 
 class GetAccountsTaskSet(GatewayGRPCTaskSet):
@@ -49,11 +49,9 @@ class GetAccountsTaskSet(GatewayGRPCTaskSet):
         if not self.open_deposit_account_response:
             return
         self.get_accounts_response = self.accounts_gateway_client.get_accounts(
-            user_id= self.create_user_response.user.id
+            user_id=self.create_user_response.user.id
         )
 
-class GetAccountsScenarioUser(User):
-    host = "localhost"
-    tasks = [GetAccountsTaskSet]
-    max_wait = between(1, 3)
 
+class GetAccountsScenarioUser(LocustBaseUser):
+    tasks = [GetAccountsTaskSet]

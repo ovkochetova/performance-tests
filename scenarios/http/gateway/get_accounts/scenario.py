@@ -1,9 +1,10 @@
-from locust import User, between, task
+from locust import task
 
 # Импортируем схемы ответов, чтобы типизировать shared state
 from clients.http.gateway.accounts.schema import OpenDepositAccountResponseSchema, GetAccountsResponseSchema
-from clients.http.gateway.locust import  GatewayHTTPTaskSet
+from clients.http.gateway.locust import GatewayHTTPTaskSet
 from clients.http.gateway.users.schema import CreateUserResponseSchema
+from tools.locust.user import LocustBaseUser
 
 
 class GetAccountsTaskSet(GatewayHTTPTaskSet):
@@ -35,7 +36,8 @@ class GetAccountsTaskSet(GatewayHTTPTaskSet):
         """
         if not self.create_user_response:
             return
-        self.open_deposit_account_response = self.accounts_gateway_client.open_deposit_account(user_id= self.create_user_response.user.id)
+        self.open_deposit_account_response = self.accounts_gateway_client.open_deposit_account(
+            user_id=self.create_user_response.user.id)
 
     @task(6)
     def get_accounts(self):
@@ -44,10 +46,9 @@ class GetAccountsTaskSet(GatewayHTTPTaskSet):
         """
         if not self.open_deposit_account_response:
             return
-        self.get_accounts_response = self.accounts_gateway_client.get_accounts(user_id= self.create_user_response.user.id)
+        self.get_accounts_response = self.accounts_gateway_client.get_accounts(
+            user_id=self.create_user_response.user.id)
 
 
-class GetAccountsScenarioUser(User):
-    host = "localhost"
+class GetAccountsScenarioUser(LocustBaseUser):
     tasks = [GetAccountsTaskSet]
-    max_wait = between(1, 3)

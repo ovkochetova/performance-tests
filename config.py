@@ -1,10 +1,16 @@
+from pydantic import BaseModel, EmailStr, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Импортируем вложенные модели
 from tools.config.grpc import GRPCClientConfig
 from tools.config.http import HTTPClientConfig
-from tools.config.locust import LocustUserConfig
 
+# Вложенная модель для описания конфигурации тестового пользователя
+class LocustUserConfig(BaseModel):
+    email: EmailStr
+    password: SecretStr
+    wait_time_min: float
+    wait_time_max: float
 
 class Settings(BaseSettings):
     # Конфигурация загрузки — откуда брать переменные
@@ -16,7 +22,7 @@ class Settings(BaseSettings):
     )
 
     # Вложенные секции настроек
-    locust_user: LocustUserConfig  # Настройки виртуального пользователя
+    locust_user: LocustUserConfig # Настройки виртуального пользователя
     gateway_http_client: HTTPClientConfig  # Настройки HTTP-клиента
     gateway_grpc_client: GRPCClientConfig  # Настройки gRPC-клиента
 

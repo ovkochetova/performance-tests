@@ -1,5 +1,4 @@
-from locust import User, between
-from pydantic import EmailStr, SecretStr
+from locust import User
 
 
 class LocustUserConfig(User):

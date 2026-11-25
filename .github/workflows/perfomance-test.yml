@@ -28,6 +28,9 @@ on:
         required: true
         description: 'Locust config file'  # Комментарий, отображаемый в UI при запуске
 
+permissions:
+  contents: write
+
 jobs:
   run-tests:
     runs-on: ubuntu-latest  # Используется стандартный GitHub Actions runner
